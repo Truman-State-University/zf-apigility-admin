@@ -51,19 +51,7 @@ class FiltersModel extends AbstractPluginManagerModel
             return $this->plugins;
         }
 
-        $plugins  = parent::getPlugins();
-        $plugins  = array_flip($plugins);
-        $metadata = $this->metadata;
-
-        array_walk($plugins, function (& $value, $key) use ($metadata) {
-            if (! array_key_exists($key, $metadata)) {
-                $value = [];
-                return;
-            }
-            $value = $metadata[$key];
-        });
-
-        $this->plugins = $plugins;
-        return $this->plugins;
+        $config = $this->pluginManager->getServiceLocator()->get('Config');
+        return $config['filter_metadata'];
     }
 }
